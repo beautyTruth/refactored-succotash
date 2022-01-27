@@ -487,7 +487,52 @@
 
 /* My code below */
 
-// dont forget to dream
+// =-=-=-=-=-=- dont forget to dream =-=-=-=-=-=-=-=-
+
+// PARAMETERS
+
+const HEIGHT = 750;
+const GRID_SIZE = 10;
+const FPS = 60;
+const DELAY_END = 2;
+
+// derived DIMENSIONS
+
+const WIDTH = HEIGHT * 0.9;
+const CELL = WIDTH / (GRID_SIZE + 2);
+const STROKE = CELL / 12;
+const DOT = STROKE;
+const MARGIN = HEIGHT - (GRID_SIZE + 1) * CELL;
+
+// COLORS
+
+const COLOR_BOARD = "#b7e1fc";
+const COLOR_BORDER = "#f5f5dc";
+const COLOR_DOT = "#FF00FF";
+const COLOR_AI = "#ffa089";
+const COLOR_AI_LIGHT = "rgba(255,160,137, .3)";
+const COLOR_PLAYER = "#9efd38";
+const COLOR_PLAYER_LIGHT = "rgba(158,253,56,.3)";
+const COLOR_TIE = "papayawhip";
+
+// TEXT variables
+const TEXT_AI = "Dr. Steve";
+const TEXT_AI_SML = "SB";
+const TEXT_PLAYER = "Dingus";
+const TEXT_PLAYER_SML = "DN";
+const TEXT_SIZE_CELL = CELL / 2.5;
+const TEXT_SIZE_TOP = MARGIN / 6;
+const TEXT_TIE = "We tried!";
+const TEXT_WIN = "won!";
+
+// the SIDE OBJECT
+
+const Side = {
+  BOTTOM: 0,
+  LEFT: 1,
+  RIGHT: 2,
+  TOP: 3,
+};
 
 // the CANVAS setup
 
@@ -503,3 +548,21 @@ const CTX = canvasEl.getContext("2d");
 CTX.lineWidth = STROKE;
 CTX.textAlign = "center";
 CTX.textBaseline = "middle";
+
+// GAME VARIABLES
+
+let currentCells, playersTurn, squares;
+
+let scoreAI, scoreRI;
+
+let timeEnd;
+
+// MOUSEMOVE event listener
+canvasEl.addEventListener("mousemove", highlightGrid);
+
+// CLICK event listener
+canvasEl.addEventListener("click", click);
+
+// =-=-=-=-=-=-=-=-=-=-=- GAME LOOP -=-=-=-=-=-=-=-=-=- //
+
+function playGame() {}
