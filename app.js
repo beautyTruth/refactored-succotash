@@ -508,7 +508,7 @@ const MARGIN = HEIGHT - (GRID_SIZE + 1) * CELL;
 
 const COLOR_BOARD = "maroon";
 const COLOR_BORDER = "#f5f5dc";
-const COLOR_DOT = "crimson";
+const COLOR_DOT = "cornflowerblue";
 const COLOR_AI = "#ffa089";
 const COLOR_AI_LIGHT = "rgba(255,160,137, .3)";
 const COLOR_PLAYER = "#9efd38";
@@ -569,6 +569,7 @@ function playGame() {
   requestAnimationFrame(playGame);
 
   drawBoard();
+  drawSquares();
   drawGrid();
 }
 
@@ -617,6 +618,29 @@ function getGridY(row) {
   return MARGIN + CELL * row;
 }
 
+// ----- the NEW GAME function
+
+function newGame() {
+  playersTurn = Math.random() >= 0.5;
+}
+
 // -=-=-=-=-=- the SQUARE CLASS -=-=-=-=-=-=-
+
+class Square {
+  constructor(x, y, w, h) {
+    this.w = w;
+    this.h = h;
+    this.bottom = y + h;
+    this.left = x;
+    this.right = x + w;
+    this.top = y;
+    this.highlight = null;
+    this.numSelected = 0;
+    this.sideBottom = { owner: null, selected: false };
+    this.sideLeft = { owner: null, selected: false };
+    this.sideRight = { owner: null, selected: false };
+    this.sideTop = { owner: null, selected: false };
+  }
+}
 
 playGame();
