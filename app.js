@@ -606,6 +606,16 @@ function drawGrid() {
   }
 }
 
+// ----- the DRAW LINE function
+
+function drawLine(x0, y0, x1, y1, color) {
+  CTX.strokeStyle = color;
+  CTX.beginPath();
+  CTX.moveTo(x0, y0);
+  CTX.lineTo(x1, y1);
+  CTX.stroke();
+}
+
 // ----- the DRAW SQUARES function
 
 function drawSquares() {
@@ -638,6 +648,12 @@ function getGridX(col) {
 function getGridY(row) {
   return MARGIN + CELL * row;
 }
+
+// ----- the HIGHLIGHT SIDE function
+
+// function highlightSide(x,y){
+
+// }
 
 // ----- the NEW GAME function
 
@@ -672,11 +688,53 @@ class Square {
     this.sideTop = { owner: null, selected: false };
   }
 
+  drawSide = (side, color) => {
+    switch (side) {
+      case Side.BOTTOM:
+        drawLine(this.left, this.bottom, this.right, this.bottom, color);
+        break;
+
+      case Side.LEFT:
+        drawLine(this.left, this.top, this.left, this.bottom, color);
+        break;
+
+      case Side.RIGHT:
+        drawLine(this.right, this.top, this.right, this.bottom, color);
+        break;
+
+      case Side.TOP:
+        drawLine(this.left, this.top, this.right, this.top, color);
+        break;
+    }
+  };
+
   drawSides = () => {
     if (this.highlight != null) {
       this.drawSide(this.highlight, getColor(playersTurn, true));
     }
   };
+
+  highlightSide = (x, y) => {
+    let distBottom = this.bottom - y;
+    let distLeft = x - this.left;
+    let distRight = this.right - x;
+    let distTop = y - this.top;
+
+    let distClosest = Math.min(distBottom, distLeft, distRight, distTop);
+
+    if (distClosest == distBottom && !this.sideBottom.selected) {
+      this.highlight = Side.BOTTOM;
+    } else if (distClosest == distLeft && !this.sideLeft.selected) {
+      this.highlight = Side.LEFT;
+    } else if (distClosest == distRight && !this.sideRight.selected) {
+      this.highlight = Side.RIGHT;
+    } else if (distClosest == distTop && !this.sideTop.selected) {
+      this.highlight = Side.TOP;
+    }
+
+    return this.highlight;
+  };
 }
 
+newGame();
 // playGame();
