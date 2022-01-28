@@ -506,9 +506,9 @@ const MARGIN = HEIGHT - (GRID_SIZE + 1) * CELL;
 
 // COLORS
 
-const COLOR_BOARD = "#b7e1fc";
+const COLOR_BOARD = "maroon";
 const COLOR_BORDER = "#f5f5dc";
-const COLOR_DOT = "#FF00FF";
+const COLOR_DOT = "crimson";
 const COLOR_AI = "#ffa089";
 const COLOR_AI_LIGHT = "rgba(255,160,137, .3)";
 const COLOR_PLAYER = "#9efd38";
@@ -536,7 +536,7 @@ const Side = {
 
 // the CANVAS setup
 
-let canvasEl = document.querySelector("canvas");
+let canvasEl = document.createElement("canvas");
 canvasEl.height = HEIGHT;
 canvasEl.width = WIDTH;
 document.body.appendChild(canvasEl);
@@ -558,11 +558,65 @@ let scoreAI, scoreRI;
 let timeEnd;
 
 // MOUSEMOVE event listener
-canvasEl.addEventListener("mousemove", highlightGrid);
+// canvasEl.addEventListener("mousemove", highlightGrid);
 
 // CLICK event listener
-canvasEl.addEventListener("click", click);
+// canvasEl.addEventListener("click", click);
 
 // =-=-=-=-=-=-=-=-=-=-=- GAME LOOP -=-=-=-=-=-=-=-=-=- //
 
-function playGame() {}
+function playGame() {
+  requestAnimationFrame(playGame);
+
+  drawBoard();
+  drawGrid();
+}
+
+// ----- the DRAW BOARD function
+
+function drawBoard() {
+  CTX.fillStyle = COLOR_BOARD;
+  CTX.strokeStyle = COLOR_BORDER;
+  CTX.fillRect(0, 0, WIDTH, HEIGHT);
+  CTX.strokeRect(
+    STROKE / 4,
+    STROKE / 4,
+    WIDTH - STROKE / 2,
+    HEIGHT - STROKE / 2
+  );
+}
+
+// ----- the DRAW DOT function
+
+function drawDot(x, y) {
+  CTX.fillStyle = COLOR_DOT;
+  CTX.beginPath();
+  CTX.arc(x, y, DOT, 0, Math.PI * 2);
+  CTX.fill();
+}
+
+// ----- the DRAW GRID function
+
+function drawGrid() {
+  for (let i = 0; i < GRID_SIZE + 1; i++) {
+    for (let j = 0; j < GRID_SIZE + 1; j++) {
+      drawDot(getGridX(j), getGridY(i));
+    }
+  }
+}
+
+// ----- the GET GRID X function
+
+function getGridX(col) {
+  return CELL * (col + 1);
+}
+
+// ----- the GET GRID Y function
+
+function getGridY(row) {
+  return MARGIN + CELL * row;
+}
+
+// -=-=-=-=-=- the SQUARE CLASS -=-=-=-=-=-=-
+
+playGame();
