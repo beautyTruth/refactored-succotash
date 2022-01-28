@@ -606,6 +606,27 @@ function drawGrid() {
   }
 }
 
+// ----- the DRAW SQUARES function
+
+function drawSquares() {
+  for (let row of squares) {
+    for (let square of row) {
+      square.drawSides();
+      square.drawFill();
+    }
+  }
+}
+
+// ----- the GET COLOR function
+
+function getColor(player, light) {
+  if (player) {
+    return light ? COLOR_PLAYER_LIGHT : COLOR_PLAYER;
+  } else {
+    return light ? COLOR_AI_LIGHT : COLOR_AI;
+  }
+}
+
 // ----- the GET GRID X function
 
 function getGridX(col) {
@@ -622,6 +643,15 @@ function getGridY(row) {
 
 function newGame() {
   playersTurn = Math.random() >= 0.5;
+
+  // set up the SQUARES ARRAY
+  squares = [];
+  for (let i = 0; i < GRID_SIZE; i++) {
+    squares[i] = [];
+    for (let j = 0; j < GRID_SIZE; j++) {
+      squares[i][j] = new Square(getGridX(j), getGridY(i), CELL, CELL);
+    }
+  }
 }
 
 // -=-=-=-=-=- the SQUARE CLASS -=-=-=-=-=-=-
@@ -641,6 +671,12 @@ class Square {
     this.sideRight = { owner: null, selected: false };
     this.sideTop = { owner: null, selected: false };
   }
+
+  drawSides = () => {
+    if (this.highlight != null) {
+      this.drawSide(this.highlight, getColor(playersTurn, true));
+    }
+  };
 }
 
-playGame();
+// playGame();
