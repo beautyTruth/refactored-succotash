@@ -512,7 +512,7 @@ const COLOR_DOT = "cornflowerblue";
 const COLOR_AI = "#ffa089";
 const COLOR_AI_LIGHT = "rgba(255,160,137, .3)";
 const COLOR_PLAYER = "#9efd38";
-const COLOR_PLAYER_LIGHT = "rgba(158,253,56,.3)";
+const COLOR_PLAYER_LIGHT = "rgba(158,253,56,.6)";
 const COLOR_TIE = "papayawhip";
 
 // TEXT variables
@@ -561,7 +561,7 @@ let timeEnd;
 canvasEl.addEventListener("mousemove", highlightGrid);
 
 // CLICK event listener
-// canvasEl.addEventListener("click", click);
+canvasEl.addEventListener("click", click);
 
 // =-=-=-=-=-=-=-=-=-=-=- GAME LOOP -=-=-=-=-=-=-=-=-=- //
 
@@ -572,6 +572,10 @@ function playGame() {
   drawSquares();
   drawGrid();
 }
+
+// ----- the CLICK function
+
+function click(e) {}
 
 // ----- the DRAW BOARD function
 
