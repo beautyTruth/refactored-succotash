@@ -558,7 +558,7 @@ let scoreAI, scoreRI;
 let timeEnd;
 
 // MOUSEMOVE event listener
-// canvasEl.addEventListener("mousemove", highlightGrid);
+canvasEl.addEventListener("mousemove", highlightGrid);
 
 // CLICK event listener
 // canvasEl.addEventListener("click", click);
@@ -649,11 +649,43 @@ function getGridY(row) {
   return MARGIN + CELL * row;
 }
 
+// ----- the HIGHLIGHT GRID function
+
+function highlightGrid(e) {
+  if (timeEnd > 0) {
+    return;
+  }
+
+  // getting the mouse's position relative to the canvas
+  let x = e.clientX - canvasRect.left;
+  let y = e.clientY - canvasRect.top;
+
+  // highlighting of the square's side
+  highlightSide(x, y);
+}
+
 // ----- the HIGHLIGHT SIDE function
 
-// function highlightSide(x,y){
+function highlightSide(x, y) {
+  // clear any previous highlighting
+  for (let row of squares) {
+    for (let square of row) {
+      square.highlight = null;
+    }
+  }
 
-// }
+  let rows = squares.length;
+  let cols = squares[0].length;
+
+  OUTER: for (i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      if (squares[i][j].contains(x, y)) {
+        let side = squares[i][j].highlightSide(x, y);
+        break OUTER;
+      }
+    }
+  }
+}
 
 // ----- the NEW GAME function
 
@@ -687,6 +719,12 @@ class Square {
     this.sideRight = { owner: null, selected: false };
     this.sideTop = { owner: null, selected: false };
   }
+
+  contains = (x, y) => {
+    return x >= this.left && x < this.right && y >= this.top && y < this.bottom;
+  };
+
+  drawFill = () => {};
 
   drawSide = (side, color) => {
     switch (side) {
@@ -737,4 +775,4 @@ class Square {
 }
 
 newGame();
-// playGame();
+playGame();
