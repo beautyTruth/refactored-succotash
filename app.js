@@ -724,6 +724,13 @@ function highlightSide(x, y) {
           neighbor = false;
         }
 
+        // highlighting the neighbor
+
+        if (neighbor) {
+          squares[row][col].highlight = highlight;
+          currentCells.push({ row: row, col: col });
+        }
+
         break OUTER;
       }
     }
