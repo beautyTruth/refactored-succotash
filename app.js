@@ -785,6 +785,24 @@ class Square {
     if (this.highlight != null) {
       this.drawSide(this.highlight, getColor(playersTurn, true));
     }
+
+    // =-=-=-=-=-=-=-=- the SELECTED logic
+
+    if (this.sideBottom.selected) {
+      this.drawSide(Side.BOTTOM, getColor(this.sideBottom.owner, false));
+    }
+
+    if (this.sideLeft.selected) {
+      this.drawSide(Side.LEFT, getColor(this.sideLeft.owner, false));
+    }
+
+    if (this.sideRight.selected) {
+      this.drawSide(Side.RIGHT, getColor(this.sideRight.owner, false));
+    }
+
+    if (this.sideTop.selected) {
+      this.drawSide(Side.TOP, getColor(this.sideTop.owner, false));
+    }
   };
 
   highlightSide = (x, y) => {
@@ -806,6 +824,35 @@ class Square {
     }
 
     return this.highlight;
+  };
+
+  selectSide = () => {
+    if (this.highlight == null) {
+      return;
+    }
+
+    // select the HIGHLIGHTED Side
+    switch (this.highlight) {
+      case Side.BOTTOM:
+        this.sideBottom.owner = playersTurn;
+        this.sideBottom.selected = true;
+        break;
+
+      case Side.LEFT:
+        this.sideLeft.owner = playersTurn;
+        this.sideLeft.selected = true;
+        break;
+
+      case Side.RIGHT:
+        this.sideRight.owner = playersTurn;
+        this.sideRight.selected = true;
+        break;
+
+      case Side.TOP:
+        this.sideTop.owner = playersTurn;
+        this.sideTop.selected = true;
+        break;
+    }
   };
 }
 
