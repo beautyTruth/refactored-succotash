@@ -575,7 +575,13 @@ function playGame() {
 
 // ----- the CLICK function
 
-function click(e) {}
+function click(e) {
+  if (timeEnd > 0) {
+    return;
+  }
+
+  selectSide();
+}
 
 // ----- the DRAW BOARD function
 
@@ -681,10 +687,17 @@ function highlightSide(x, y) {
   let rows = squares.length;
   let cols = squares[0].length;
 
+  currentCells = [];
+
   OUTER: for (i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       if (squares[i][j].contains(x, y)) {
         let side = squares[i][j].highlightSide(x, y);
+
+        if (side != null) {
+          currentCells.push({ row: i, col: j });
+        }
+
         break OUTER;
       }
     }
@@ -694,6 +707,8 @@ function highlightSide(x, y) {
 // ----- the NEW GAME function
 
 function newGame() {
+  currentCells = [];
+
   playersTurn = Math.random() >= 0.5;
 
   // set up the SQUARES ARRAY
@@ -704,6 +719,22 @@ function newGame() {
       squares[i][j] = new Square(getGridX(j), getGridY(i), CELL, CELL);
     }
   }
+}
+
+// ----- the SELECT SIDE function
+
+function selectSide() {
+  if (currentCells == null || currentCells.length == 0) {
+    return;
+  }
+
+  // select SIDE
+
+  for (let cell of currentCells) {
+    squares[cell.row][cell.col].selectSide();
+  }
+
+  currentCells = [];
 }
 
 // -=-=-=-=-=- the SQUARE CLASS -=-=-=-=-=-=-
