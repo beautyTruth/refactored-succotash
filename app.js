@@ -698,6 +698,32 @@ function highlightSide(x, y) {
           currentCells.push({ row: i, col: j });
         }
 
+        // determine the neighbor
+        let row = i,
+          col = j,
+          highlight,
+          neighbor = true;
+
+        if (side == Side.LEFT && j > 0) {
+          // from the neighbor perspective
+          col = j - 1;
+          highlight = Side.RIGHT;
+        } else if (side == Side.RIGHT && j < cols - 1) {
+          // from the neighbor's perspective
+          col = j + 1;
+          highlight = Side.LEFT;
+        } else if (side == Side.TOP && j > 0) {
+          // from the neighbor's perspective
+          row = i - 1;
+          highlight = Side.BOTTOM;
+        } else if (side == Side.BOTTOM && j < rows - 1) {
+          // from the neighbor's perspective
+          row = i + 1;
+          highlight = Side.TOP;
+        } else {
+          neighbor = false;
+        }
+
         break OUTER;
       }
     }
@@ -735,6 +761,10 @@ function selectSide() {
   }
 
   currentCells = [];
+
+  // player switch
+
+  playersTurn = !playersTurn;
 }
 
 // -=-=-=-=-=- the SQUARE CLASS -=-=-=-=-=-=-
