@@ -640,6 +640,29 @@ function drawScores() {
   // robut player
   drawText(TEXT_AI, WIDTH * 0.75, MARGIN * 0.25, colorAI, TEXT_SIZE_TOP);
   drawText(scoreAI, WIDTH * 0.75, MARGIN * 0.6, colorAI, TEXT_SIZE_TOP * 2);
+
+  // game over text
+  if (timeEnd > 0) {
+    timeEnd--;
+
+    // handling of a tie
+
+    if (scoreRI == scoreAI) {
+      drawText(TEXT_TIE, WIDTH * 0.5, MARGIN * 0.6, COLOR_TIE, TEXT_SIZE_TOP);
+    } else {
+      let playerWins = scoreRI > scoreAI;
+      let color = playerWins ? COLOR_PLAYER : COLOR_AI;
+      let text = playerWins ? TEXT_PLAYER : TEXT_AI;
+
+      drawText(text, WIDTH * 0.5, MARGIN * 0.5, color, TEXT_SIZE_TOP);
+      drawText(TEXT_WIN, WIDTH * 0.5, MARGIN * 0.7, color, TEXT_SIZE_TOP);
+    }
+
+    // new game call after result is determined
+    if (timeEnd == 0) {
+      newGame();
+    }
+  }
 }
 
 // ----- the DRAW SQUARES function
@@ -746,11 +769,11 @@ function highlightSide(x, y) {
           // from the neighbor's perspective
           col = j + 1;
           highlight = Side.LEFT;
-        } else if (side == Side.TOP && j > 0) {
+        } else if (side == Side.TOP && i > 0) {
           // from the neighbor's perspective
           row = i - 1;
           highlight = Side.BOTTOM;
-        } else if (side == Side.BOTTOM && j < rows - 1) {
+        } else if (side == Side.BOTTOM && i < rows - 1) {
           // from the neighbor's perspective
           row = i + 1;
           highlight = Side.TOP;
@@ -780,6 +803,8 @@ function newGame() {
 
   scoreAI = 0;
   scoreRI = 0;
+
+  timeEnd = 0;
 
   // set up the SQUARES ARRAY
   squares = [];
@@ -815,6 +840,9 @@ function selectSide() {
 
   if (filledSquare) {
     // handle the game over
+    if (scoreRI + scoreAI == GRID_SIZE * GRID_SIZE) {
+      timeEnd = Math.ceil(DELAY_END * FPS);
+    }
   } else {
     // player switch
     playersTurn = !playersTurn;
