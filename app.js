@@ -283,6 +283,21 @@ function AI() {
     }
   }
 
+  // choose a random side based on the priorities
+
+  let option;
+  if (options[0].length > 0) {
+    option = options[0][Math.floor(Math.random() * options[0].length)];
+  } else if (options[1].length > 0) {
+    option = options[1][Math.floor(Math.random() * options[1].length)];
+  } else if (options[2].length > 0) {
+    option = options[2][Math.floor(Math.random() * options[2].length)];
+  }
+
+  // getting the squares' coordinates
+  let coordinates = option.getFreeSideCoordinates();
+  highlightSide(coordinates.x, coordinates.y);
+
   // setting up the delay
   timeAI = Math.ceil(DELAY_AI * FPS);
 }
