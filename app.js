@@ -250,6 +250,39 @@ function AI() {
     return;
   }
 
+  // the AI's ppriorities
+  /* 
+  the first priority -- select a square that has 3 sides completed
+  the second priority -- select a square that has 0 or 1 sides completed 
+  the third priority -- select a square that has 2 sides completed 
+  */
+
+  // setting up the options
+  let options = [];
+  options[0] = [];
+  options[1] = [];
+  options[2] = [];
+
+  // populating the options array
+
+  for (let i = 0; i < squares.length; i++) {
+    for (let j = 0; j < squares[0].length; j++) {
+      switch (squares[i][j].numSelected) {
+        case 3: // first priority
+          options[0].push(squares[i][j]);
+          break;
+
+        case 0: // second priority
+        case 1: // second priority
+          options[1].push(squares[i][j]);
+          break;
+        case 2: // third priority
+          options[2].push(squares[i][j]);
+          break;
+      }
+    }
+  }
+
   // setting up the delay
   timeAI = Math.ceil(DELAY_AI * FPS);
 }
