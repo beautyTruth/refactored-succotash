@@ -806,7 +806,20 @@ class Square {
     return x >= this.left && x < this.right && y >= this.top && y < this.bottom;
   };
 
-  drawFill = () => {};
+  drawFill = () => {
+    if (this.owner == null) {
+      return;
+    }
+
+    // draw a light background for the owner of the CELL
+    CTX.fillStyle = getColor(this.owner, true);
+    CTX.fillRect(
+      this.left + STROKE,
+      this.top + STROKE,
+      this.w - STROKE * 2,
+      this.h - STROKE * 2
+    );
+  };
 
   drawSide = (side, color) => {
     switch (side) {
