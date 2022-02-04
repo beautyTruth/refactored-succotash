@@ -525,6 +525,15 @@ class Square {
     }
   };
 
+  getFreeSideCoordinates = () => {
+    // get valid coordinates for each of the sides
+    let coordinatesBottom = { x: this.left + this.w / 2, y: this.bottom - 1 };
+    let coordinatesLeft = { x: this.left, y: this.top + this.h / 2 };
+
+    let coordinatesRight = { x: this.right - 1, y: this.top + this.h / 2 };
+    let coordinatesTop = { x: this.left + this.w / 2, y: this.top };
+  };
+
   highlightSide = (x, y) => {
     let distBottom = this.bottom - y;
     let distLeft = x - this.left;
