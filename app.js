@@ -296,8 +296,13 @@ function AI() {
     option = options[2][Math.floor(Math.random() * options[2].length)];
   }
 
+  let side = null;
+  if (option.sides.length > 0) {
+    side = option.sides[Math.floor(Math.random() * option.sides.length)];
+  }
+
   // getting the squares' coordinates
-  let coordinates = option.getFreeSideCoordinates();
+  let coordinates = option.square.getFreeSideCoordinates(side);
   highlightSide(coordinates.x, coordinates.y);
 
   // setting up the delay
@@ -535,7 +540,33 @@ class Square {
     let coordinatesRight = { x: this.right - 1, y: this.top + this.h / 2 };
     let coordinatesTop = { x: this.left + this.w / 2, y: this.top };
 
-    // the AI chooses a random free side
+    // get the coordinates of each side
+
+    let coordinates = null;
+
+    switch (side) {
+      case Side.BOTTOM:
+        coordinates = coordinatesBottom;
+        break;
+
+      case Side.LEFT:
+        coordinates = coordinatesLeft;
+        break;
+
+      case Side.RIGHT:
+        coordinates = coordinatesRight;
+        break;
+
+      case Side.TOP:
+        coordinates = coordinatesTop;
+        break;
+    }
+
+    if (coordinates != null) {
+      return coordinates;
+    }
+
+    // alternately, the AI chooses a random free side
     let freeCoordinates = [];
     if (!this.sideBottom.selected) {
       freeCoordinates.push(coordinatesBottom);
