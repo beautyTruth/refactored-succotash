@@ -244,8 +244,8 @@ function AI() {
   if (timeAI > 0) {
     timeAI--;
     if (timeAI == 0) {
-      // selectSide()
-      playersTurn = !playersTurn;
+      selectSide();
+      // playersTurn = !playersTurn;
     }
     return;
   }
@@ -532,6 +532,27 @@ class Square {
 
     let coordinatesRight = { x: this.right - 1, y: this.top + this.h / 2 };
     let coordinatesTop = { x: this.left + this.w / 2, y: this.top };
+
+    // the AI chooses a random free side
+    let freeCoordinates = [];
+    if (!this.sideBottom.selected) {
+      freeCoordinates.push(coordinatesBottom);
+    }
+
+    if (!this.sideLeft.selected) {
+      freeCoordinates.push(coordinatesLeft);
+    }
+
+    if (!this.sideRight.selected) {
+      freeCoordinates.push(coordinatesRight);
+    }
+
+    if (!this.sideTop.selected) {
+      freeCoordinates.push(coordinatesTop);
+    }
+
+    // to make it so we can't predict the robot's move
+    return freeCoordinates[Math.floor(Math.random() * freeCoordinates.length)];
   };
 
   highlightSide = (x, y) => {
