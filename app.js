@@ -763,15 +763,25 @@ function selectSide() {
 
   // select SIDE
 
+  // for (let cell of currentCells) {
+  //   squares[cell.row][cell.col].selectSide();
+  // }
+
+  let filledSquare = false;
   for (let cell of currentCells) {
-    squares[cell.row][cell.col].selectSide();
+    if (squares[cell.row][cell.col].selectSide()) {
+      filledSquare = true;
+    }
   }
 
   currentCells = [];
 
-  // player switch
-
-  playersTurn = !playersTurn;
+  if (filledSquare) {
+    // handle the game over
+  } else {
+    // player switch
+    playersTurn = !playersTurn;
+  }
 }
 
 // -=-=-=-=-=- the SQUARE CLASS -=-=-=-=-=-=-
@@ -890,6 +900,19 @@ class Square {
         this.sideTop.selected = true;
         break;
     }
+
+    this.highlight = null;
+
+    this.numSelected++;
+    if (this.numSelected == 4) {
+      this.owner = playersTurn;
+
+      // handle the score
+
+      return true;
+    }
+
+    return false;
   };
 }
 
