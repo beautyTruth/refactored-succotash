@@ -269,15 +269,17 @@ function AI() {
     for (let j = 0; j < squares[0].length; j++) {
       switch (squares[i][j].numSelected) {
         case 3: // first priority
-          options[0].push(squares[i][j]);
+          options[0].push({ square: squares[i][j], sides: [] });
           break;
 
         case 0: // second priority
         case 1: // second priority
-          options[1].push(squares[i][j]);
+          let sides = getValidNeighborSides(i, j);
+          let priority = sides.length > 0 ? 1 : 2;
+          options[priority].push({ square: squares[i][j], sides: sides });
           break;
         case 2: // third priority
-          options[2].push(squares[i][j]);
+          options[2].push({ square: squares[i][j], sides: [] });
           break;
       }
     }
