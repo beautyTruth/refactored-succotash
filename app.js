@@ -523,7 +523,7 @@ const TEXT_PLAYER_SML = "DN";
 const TEXT_SIZE_CELL = CELL / 2.5;
 const TEXT_SIZE_TOP = MARGIN / 6;
 const TEXT_TIE = "We tried!";
-const TEXT_WIN = "won!";
+const TEXT_WIN = "wins!";
 
 // the SIDE OBJECT
 
@@ -637,6 +637,14 @@ function drawSquares() {
   }
 }
 
+// ----- the DRAW TEXT function
+
+function drawText(text, x, y, color, size) {
+  CTX.fillStyle = color;
+  CTX.font = `${size}px sans-serif`;
+  CTX.fillText(text, x, y);
+}
+
 // ----- the GET COLOR function
 
 function getColor(player, light) {
@@ -644,6 +652,16 @@ function getColor(player, light) {
     return light ? COLOR_PLAYER_LIGHT : COLOR_PLAYER;
   } else {
     return light ? COLOR_AI_LIGHT : COLOR_AI;
+  }
+}
+
+// ----- the GET TEXT function
+
+function getText(player, small) {
+  if (player) {
+    return small ? TEXT_PLAYER_SML : TEXT_PLAYER;
+  } else {
+    return small ? TEXT_AI_SML : TEXT_AI;
   }
 }
 
@@ -818,6 +836,15 @@ class Square {
       this.top + STROKE,
       this.w - STROKE * 2,
       this.h - STROKE * 2
+    );
+
+    // owner text
+    drawText(
+      getText(this.owner, true),
+      this.left + this.w / 2,
+      this.top + this.h / 2,
+      getColor(this.owner, false),
+      TEXT_SIZE_CELL
     );
   };
 
