@@ -232,6 +232,43 @@ function getGridY(row) {
   return MARGIN + CELL * row;
 }
 
+// ----- the GET VALID NEIGHBOR SIDES function
+
+function getValidNeighborSides(row, col) {
+  let sides = [];
+  let square = squares[row][col];
+
+  // checking to see if the bottom side is selected
+  if (!square.sideBottom.selected) {
+    if (row == squares.length - 1 || squares[row + 1][col].numSelected < 2) {
+      sides.push(Side.BOTTOM);
+    }
+  }
+
+  // checking to see if the left side is selected
+  if (!square.sideBottom.selected) {
+    if (col == 0 || squares[row][col - 1].numSelected < 2) {
+      sides.push(Side.LEFT);
+    }
+  }
+
+  // checking to see if the right side is selected
+  if (!square.sideBottom.selected) {
+    if (col == squares[0].length - 1 || squares[row][col + 1].numSelected < 2) {
+      sides.push(Side.RIGHT);
+    }
+  }
+
+  // checking to see if the top side is selected
+  if (!square.sideBottom.selected) {
+    if (row == 0 || squares[row - 1][col].numSelected < 2) {
+      sides.push(Side.TOP);
+    }
+  }
+
+  return sides;
+}
+
 // -=-=-=-=-=-=-=-=- 🤖 ARTIFICIAL INTELLIGENCE 🤖 -=-=-=-=-=-=-=-=-=- //
 
 function AI() {
@@ -532,7 +569,7 @@ class Square {
     }
   };
 
-  getFreeSideCoordinates = () => {
+  getFreeSideCoordinates = (side) => {
     // get valid coordinates for each of the sides
     let coordinatesBottom = { x: this.left + this.w / 2, y: this.bottom - 1 };
     let coordinatesLeft = { x: this.left, y: this.top + this.h / 2 };
