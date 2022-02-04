@@ -246,21 +246,21 @@ function getValidNeighborSides(row, col) {
   }
 
   // checking to see if the left side is selected
-  if (!square.sideBottom.selected) {
+  if (!square.sideLeft.selected) {
     if (col == 0 || squares[row][col - 1].numSelected < 2) {
       sides.push(Side.LEFT);
     }
   }
 
   // checking to see if the right side is selected
-  if (!square.sideBottom.selected) {
+  if (!square.sideRight.selected) {
     if (col == squares[0].length - 1 || squares[row][col + 1].numSelected < 2) {
       sides.push(Side.RIGHT);
     }
   }
 
   // checking to see if the top side is selected
-  if (!square.sideBottom.selected) {
+  if (!square.sideTop.selected) {
     if (row == 0 || squares[row - 1][col].numSelected < 2) {
       sides.push(Side.TOP);
     }
