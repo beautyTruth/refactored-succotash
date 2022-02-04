@@ -571,6 +571,7 @@ function playGame() {
   drawBoard();
   drawSquares();
   drawGrid();
+  drawScores();
 }
 
 // ----- the CLICK function
@@ -624,6 +625,21 @@ function drawLine(x0, y0, x1, y1, color) {
   CTX.moveTo(x0, y0);
   CTX.lineTo(x1, y1);
   CTX.stroke();
+}
+
+// ----- the DRAW SCORES function
+
+function drawScores() {
+  let colorAI = playersTurn ? COLOR_AI_LIGHT : COLOR_AI;
+  let colorRI = playersTurn ? COLOR_PLAYER : COLOR_PLAYER_LIGHT;
+
+  // hooman player
+  drawText(TEXT_PLAYER, WIDTH * 0.25, MARGIN * 0.25, colorRI, TEXT_SIZE_TOP);
+  drawText(scoreRI, WIDTH * 0.25, MARGIN * 0.6, colorRI, TEXT_SIZE_TOP * 2);
+
+  // robut player
+  drawText(TEXT_AI, WIDTH * 0.75, MARGIN * 0.25, colorAI, TEXT_SIZE_TOP);
+  drawText(scoreAI, WIDTH * 0.75, MARGIN * 0.6, colorAI, TEXT_SIZE_TOP * 2);
 }
 
 // ----- the DRAW SQUARES function
@@ -761,6 +777,9 @@ function newGame() {
   currentCells = [];
 
   playersTurn = Math.random() >= 0.5;
+
+  scoreAI = 0;
+  scoreRI = 0;
 
   // set up the SQUARES ARRAY
   squares = [];
@@ -948,6 +967,11 @@ class Square {
       this.owner = playersTurn;
 
       // handle the score
+      if (playersTurn) {
+        scoreRI++;
+      } else {
+        scoreAI++;
+      }
 
       return true;
     }
